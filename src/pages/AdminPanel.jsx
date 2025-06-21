@@ -7,6 +7,7 @@ import AboutpageAboutAdmin from '../components/Admin/AboutpageAboutAdmin';
 import AboutpageBannerAdmin from '../components/Admin/AboutpageBannerAdmin';
 import ContactBannerAdmin from '../components/Admin/ContactBannerAdmin';
 import ContactMessagesAdmin from '../components/Admin/ContactMessagesAdmin';
+import AdminDashboard from '../components/Admin/AdminDashboard';
 
 const AdminPanel = () => {
   return (
@@ -32,6 +33,8 @@ const AdminPanel = () => {
       <ContactBannerAdmin />
 
       <ContactMessagesAdmin />
+
+      <AdminDashboard />
     </div>
   );
 };

@@ -21,6 +21,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// ✅ Admin login route import
+const adminAuthRoutes = require("./routes/adminAuthRoutes");
+app.use("/api/admin", adminAuthRoutes);  // Prefix route
+
 // Routes
 app.use("/api/banner", bannerRoutes);
 app.use("/api/about", aboutRoutes);

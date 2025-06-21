@@ -1,57 +1,131 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
+// ✅ Common Components
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
+// ✅ Public Pages
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 
-import AdminPanel from "./pages/AdminPanel";
+// ✅ Admin Auth Pages
+import AdminLogin from "./pages/AdminLogin"; // 🔰 Login Form
+import AdminPanel from "./pages/AdminPanel"; // 🔰 Dashboard after login
+
+// ✅ Admin Content Pages
 import BannerAdmin from "./components/Admin/BannerAdmin";
 import AboutAdmin from "./components/Admin/AboutAdmin";
 import TeamAdmin from "./components/Admin/TeamAdmin";
 import FAQAdmin from "./components/Admin/FAQAdmin";
-import AboutpageAboutAdmin from "./components/Admin/AboutpageAboutAdmin"
-import AboutpageBannerAdmin from "./components/Admin/AboutpageBannerAdmin"
-import "./App.css";
-
+import AboutpageAboutAdmin from "./components/Admin/AboutpageAboutAdmin";
+import AboutpageBannerAdmin from "./components/Admin/AboutpageBannerAdmin";
 import ContactBannerAdmin from "./components/Admin/ContactBannerAdmin";
 
-// 🔽 Yeh wrapper banaya gaya hai jisse aap route ke hisaab se Navbar/Footer dikha sakte ho
+// ✅ Protected Route for Admin
+import ProtectedRoute from "./components/ProtectedRoute";
+
+// ✅ CSS
+import "./App.css";
+
+
+
+// ✅ LayoutWrapper me Navbar/Footer ka condition check hota hai
 function LayoutWrapper() {
   const location = useLocation();
 
-  // Agar path /admin se shuru hota hai, to Navbar/Footer nahi dikhenge
+  // 🔰 Agar path "/admin" se shuru hota hai to Navbar/Footer hide karenge
   const isAdminPath = location.pathname.startsWith("/admin");
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
-      {!isAdminPath && <Navbar />} {/* Admin ke liye hide */}
+      {!isAdminPath && <Navbar />} {/* ✅ Public pages me show hoga */}
+      
       <main className="flex-grow">
         <Routes>
-          {/* Public Pages */}
+          {/* ✅ Public Pages */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
 
-          {/* Admin Pages */}
-          <Route path="/admin" element={<AdminPanel />} />
-          <Route path="/admin/banner" element={<BannerAdmin />} />
-          <Route path="/admin/about" element={<AboutAdmin />} />
-          <Route path="/admin/team" element={<TeamAdmin />} />
-          <Route path="/admin/faq" element={<FAQAdmin />} />
-          <Route path="/admin/aboutpageabout" element={<AboutpageAboutAdmin />} />
-          <Route path="/admin/aboutbanner" element={<AboutpageBannerAdmin />} /> 
-          <Route path="/admin/contactbanner" element={<ContactBannerAdmin />} />
+          {/* ✅ Admin Login Page (accessible to all) */}
+          <Route path="/admin" element={<AdminLogin />} />
+
+          {/* ✅ Protected Admin Dashboard and Sub Pages */}
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute>
+                <AdminPanel />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/banner"
+            element={
+              <ProtectedRoute>
+                <BannerAdmin />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/about"
+            element={
+              <ProtectedRoute>
+                <AboutAdmin />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/team"
+            element={
+              <ProtectedRoute>
+                <TeamAdmin />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/faq"
+            element={
+              <ProtectedRoute>
+                <FAQAdmin />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/aboutpageabout"
+            element={
+              <ProtectedRoute>
+                <AboutpageAboutAdmin />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/aboutbanner"
+            element={
+              <ProtectedRoute>
+                <AboutpageBannerAdmin />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/contactbanner"
+            element={
+              <ProtectedRoute>
+                <ContactBannerAdmin />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
-      {!isAdminPath && <Footer />} {/* Admin ke liye hide */}
+
+      {!isAdminPath && <Footer />} {/* ✅ Public pages me show hoga */}
     </div>
   );
 }
 
+// ✅ App me Router wrap kiya gaya hai
 export default function App() {
   return (
     <Router>
