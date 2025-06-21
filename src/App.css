@@ -36,3 +36,40 @@
     transform: rotate(360deg);
   }
 }
+
+.email-icon
+{
+  background-image: none !important;
+}
+
+
+/* Clear button for text and search fields */
+input.no-browser-icon::-webkit-clear-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+}
+
+/* Spin buttons for number inputs */
+input.no-browser-icon::-webkit-inner-spin-button,
+input.no-browser-icon::-webkit-outer-spin-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+}
+
+/* Autofill background removal */
+input.no-browser-icon:-webkit-autofill,
+input.no-browser-icon:-webkit-autofill:hover,
+input.no-browser-icon:-webkit-autofill:focus {
+  background-color: transparent !important;
+  background-image: none !important;
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  box-shadow: 0 0 0px 1000px white inset !important;
+  color: #000 !important;
+}
+
+/* Contacts and password manager icons */
+input.no-browser-icon::-webkit-contacts-auto-fill-button,
+input.no-browser-icon::-webkit-textfield-decoration-container {
+  display: none !important;
+  visibility: hidden !important;
+}
