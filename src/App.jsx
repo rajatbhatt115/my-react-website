@@ -10,11 +10,14 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 
-// ✅ Admin Auth Pages
-import AdminLogin from "./pages/AdminLogin"; // 🔰 Login Form
-import AdminPanel from "./pages/AdminPanel"; // 🔰 Dashboard after login
+// ✅ Admin Auth
+import AdminLogin from "./pages/AdminLogin"; // 🔐 Login Page
+import ProtectedRoute from "./components/ProtectedRoute";
 
-// ✅ Admin Content Pages
+// ✅ Admin Layout
+import AdminPanel from "./pages/AdminPanel";
+
+// ✅ Admin Pages (Nested Inside Admin Layout)
 import BannerAdmin from "./components/Admin/BannerAdmin";
 import AboutAdmin from "./components/Admin/AboutAdmin";
 import TeamAdmin from "./components/Admin/TeamAdmin";
@@ -22,26 +25,23 @@ import FAQAdmin from "./components/Admin/FAQAdmin";
 import AboutpageAboutAdmin from "./components/Admin/AboutpageAboutAdmin";
 import AboutpageBannerAdmin from "./components/Admin/AboutpageBannerAdmin";
 import ContactBannerAdmin from "./components/Admin/ContactBannerAdmin";
-
-// ✅ Protected Route for Admin
-import ProtectedRoute from "./components/ProtectedRoute";
+import ContactMessagesAdmin from "./components/Admin/ContactMessagesAdmin";
 
 // ✅ CSS
 import "./App.css";
 
-
-
-// ✅ LayoutWrapper me Navbar/Footer ka condition check hota hai
+// 🔁 LayoutWrapper for handling public routes with Navbar/Footer
 function LayoutWrapper() {
   const location = useLocation();
 
-  // 🔰 Agar path "/admin" se shuru hota hai to Navbar/Footer hide karenge
+  // ✅ Check kar rahe hain agar path /admin se shuru hota hai to navbar/footer na dikhaye
   const isAdminPath = location.pathname.startsWith("/admin");
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
-      {!isAdminPath && <Navbar />} {/* ✅ Public pages me show hoga */}
-      
+      {/* ✅ Show Navbar only for public pages */}
+      {!isAdminPath && <Navbar />}
+
       <main className="flex-grow">
         <Routes>
           {/* ✅ Public Pages */}
@@ -49,83 +49,38 @@ function LayoutWrapper() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
 
-          {/* ✅ Admin Login Page (accessible to all) */}
+          {/* ✅ Admin Login Page - Always accessible */}
           <Route path="/admin" element={<AdminLogin />} />
 
-          {/* ✅ Protected Admin Dashboard and Sub Pages */}
+          {/* ✅ Protected Admin Area - Nested Layout */}
           <Route
-            path="/admin/dashboard"
+            path="/admin/*"
             element={
               <ProtectedRoute>
                 <AdminPanel />
               </ProtectedRoute>
             }
-          />
-          <Route
-            path="/admin/banner"
-            element={
-              <ProtectedRoute>
-                <BannerAdmin />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/about"
-            element={
-              <ProtectedRoute>
-                <AboutAdmin />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/team"
-            element={
-              <ProtectedRoute>
-                <TeamAdmin />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/faq"
-            element={
-              <ProtectedRoute>
-                <FAQAdmin />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/aboutpageabout"
-            element={
-              <ProtectedRoute>
-                <AboutpageAboutAdmin />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/aboutbanner"
-            element={
-              <ProtectedRoute>
-                <AboutpageBannerAdmin />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/contactbanner"
-            element={
-              <ProtectedRoute>
-                <ContactBannerAdmin />
-              </ProtectedRoute>
-            }
-          />
+          >
+            {/* ✅ All child pages rendered inside <Outlet /> in AdminPanel.jsx */}
+            <Route path="banner" element={<BannerAdmin />} />
+            <Route path="about" element={<AboutAdmin />} />
+            <Route path="team" element={<TeamAdmin />} />
+            <Route path="faq" element={<FAQAdmin />} />
+            <Route path="aboutpageabout" element={<AboutpageAboutAdmin />} />
+            <Route path="aboutbanner" element={<AboutpageBannerAdmin />} />
+            <Route path="contactbanner" element={<ContactBannerAdmin />} />
+           <Route path="contactform" element={<ContactMessagesAdmin />} />
+          </Route>
         </Routes>
       </main>
 
-      {!isAdminPath && <Footer />} {/* ✅ Public pages me show hoga */}
+      {/* ✅ Footer only for public pages */}
+      {!isAdminPath && <Footer />}
     </div>
   );
 }
 
-// ✅ App me Router wrap kiya gaya hai
+// ✅ Main App component with Router
 export default function App() {
   return (
     <Router>

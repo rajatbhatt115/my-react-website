@@ -26,7 +26,7 @@ function AdminLogin() {
     try {
       const res = await axios.post("http://localhost:5000/api/admin/login", formData);
       localStorage.setItem("adminToken", res.data.token);
-      navigate("/admin/dashboard", { replace: true }); // ✅ BACK button block hoga
+      navigate("/admin/banner", { replace: true }); // ✅ BACK button block hoga
     } catch (err) {
       setError("Invalid credentials");
     }

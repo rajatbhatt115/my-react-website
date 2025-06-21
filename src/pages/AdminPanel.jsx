@@ -1,42 +1,34 @@
-import React from 'react';
-import BannerAdmin from '../components/Admin/BannerAdmin';
-import AboutAdmin from '../components/Admin/AboutAdmin';
-import TeamAdmin from '../components/Admin/TeamAdmin';
-import FAQAdmin from '../components/Admin/FAQAdmin';
-import AboutpageAboutAdmin from '../components/Admin/AboutpageAboutAdmin';
-import AboutpageBannerAdmin from '../components/Admin/AboutpageBannerAdmin';
-import ContactBannerAdmin from '../components/Admin/ContactBannerAdmin';
-import ContactMessagesAdmin from '../components/Admin/ContactMessagesAdmin';
-import AdminDashboard from '../components/Admin/AdminDashboard';
+import React, { useState } from "react";
+import Sidemenu from "../components/Sidemenu";
+import { Outlet } from "react-router-dom";
+import { FaBars } from "react-icons/fa";
 
-const AdminPanel = () => {
+export default function AdminPanel() {
+  const [sidebarOpen, setSidebarOpen] = useState(true); // ✅ default: open
+
   return (
-    <div className="p-6 space-y-10">
-      <h1 className="text-4xl font-bold text-center text-blue-700">Admin Panel</h1>
+    <div className="flex">
+      {/* ✅ Sidebar Toggle */}
+      <Sidemenu visible={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* 🔽 Banner Admin Section */}
-      <BannerAdmin />
+      {/* ✅ Main Area */}
+      <div className={`flex-1 min-h-screen bg-gray-100 transition-all duration-300 ${sidebarOpen ? "ml-64" : ""}`}>
+        {/* ✅ Topbar */}
+        <div className="bg-white shadow-md p-4 flex items-center">
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="mr-4"
+          >
+            <FaBars className="text-2xl" />
+          </button>
+          {/* <h1 className="text-xl font-bold">Admin Dashboard</h1> */}
+        </div>
 
-      {/* 🔽 About Admin Section */}
-      <AboutAdmin />
-
-      {/* 🔽 Team Admin Section */}
-      <TeamAdmin />
-
-      {/* 🔽 FAQ Admin Section */}
-      <FAQAdmin />
-
-      <AboutpageAboutAdmin />
-
-      <AboutpageBannerAdmin />
-
-      <ContactBannerAdmin />
-
-      <ContactMessagesAdmin />
-
-      <AdminDashboard />
+        {/* ✅ Dynamic page content */}
+        <div className="p-4">
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
-};
-
-export default AdminPanel;
+}
